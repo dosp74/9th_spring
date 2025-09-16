@@ -42,17 +42,9 @@ if (!eventPath) {
 
 const event = loadJson(eventPath);
 
-let config = {};
-const configEnvRaw = process.env.PR_VALIDATION_CONFIG;
-if (configEnvRaw) {
-    try {
-        config = JSON.parse(configEnvRaw);
-    } catch (err) {
-        fail(`환경 변수(PR_VALIDATION_CONFIG)의 규칙 JSON을 파싱하지 못했습니다: ${err.message}`);
-    }
-} else {
-    fail('규칙 설정이 환경 변수로 제공되지 않았습니다. PR_VALIDATION_CONFIG를 설정하세요.');
-}
+// 규칙 JSON 로드 (레포 내부)
+const configPath = path.join(__dirname, '..', 'config', 'pr-validation.json');
+const config = loadJson(configPath);
 
 const userToBranch = config && typeof config.userToBranch === 'object' && !Array.isArray(config.userToBranch) ? config.userToBranch : {};
 const ownersList = Array.isArray(config.owners) ? config.owners : (config.owner ? [config.owner] : []);
