@@ -26,5 +26,4 @@ jobs:
       - name: Validate PR target branch
         env:
           GITHUB_EVENT_PATH: ${{ github.event_path }}
-          PR_VALIDATION_CONFIG: ${{ vars.PR_VALIDATION_CONFIG }}
         run: node .github/scripts/validate-pr-branch.js
