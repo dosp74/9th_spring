@@ -325,5 +325,4 @@ public class MissionService {
 
 JPQL로 지역과 마감일을 조건으로 미션을 조회한다. 이 또한 별도의 응답 DTO를 두었다.
 
-[미션 레포지토리]
-(https://github.com/dosp74/demo/tree/feature/chapter5)
+[미션 레포지토리](https://github.com/dosp74/demo/tree/feature/chapter5)
