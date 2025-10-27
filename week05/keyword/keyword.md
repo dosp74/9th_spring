@@ -272,7 +272,7 @@ commit은 **그 SQL 결과를 진짜로 DB에 확정한다(트랜잭션 종료)*
 
 ### QueryDSL, OpenFeign의 QueryDSL
 
-`QueryDSL`은 JPA를 위한 쿼리 빌더 도구이고, `OpenFeign`은 HTTP 통신을 위한 클라이언트 라이브러리이다.
+`QueryDSL`은 JPA를 위한 쿼리 빌더 도구이다.
 
 ### QueryDSL
 
@@ -294,27 +294,15 @@ List<Member> result = queryFactory
 
 JPQL로 쿼리를 작성할 때에는 오타 하나만 나도 컴파일 에러가 아닌 런타임 에러로 터지지만, QueryDSL은 코드로 작성하므로 IDE 자동완성 + 타입 검사를 받을 수 있다.
 
-### OpenFeign
+다만, QueryDSL 5.1.0부터 JPAQuery의 orderBy를 사용할 때 SQL Injection 공격에 취약하다는 보안 취약점이 발견되었다.
 
-Spring Cloud에서 사용하는 HTTP API 호출용 라이브러리로, REST API를 인터페이스 기반으로 호출할 수 있게 해주는 기술이다.
+쿼리문을 감싸서 처리하면 되지만, 코드가 반복되니 보기 힘들다는 단점이 있다.
 
-Feign은 `HTTP 요청을 대신 보내주는 도구`이며, DB나 쿼리와는 관련이 없다.
+QueryDSL 깃허브를 들어가보면 24년 1월, 자바 21에 맞춰 충돌 해결만 하고 별다른 지원이 없는 것을 확인할 수 있다.
 
-#### 예시
+그래서 여러 팀이 QueryDSL을 살리기 위해 Fork하면서 유지보수를 하고 있다.
 
-```java
-@FeignClient(name = "userClient", url = "https://api.example.com")
-public interface UserClient {
-    @GetMapping("/users")
-    List<UserResponse> getUsers(@RequestParam("age") int age);
-}
-```
-
-여기서 파라미터(age)는 HTTP 쿼리 파라미터이고, QueryDSL과는 아무 관련이 없다.
-
-즉, `QueryDSL`은 JPA용 쿼리 빌더이고, `OpenFeign`은 HTTP API 호출 도구이다.
-
-OpenFeign의 QueryDSL이라는 용어는 존재하지 않으며, 두 기술은 전혀 다른 계층에서 동작한다.
+그중 가장 활발할 것이 OpenFeign 팀의 QueryDSL이다.
 
 <br>
 
